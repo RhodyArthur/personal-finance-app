@@ -20,6 +20,12 @@ export const routes: Routes = [
         path: 'recurring bills',
         loadComponent: () => import('./features/recurring-bills/recurring-bills.component').then(m => m.RecurringBillsComponent)
     },
+    {
+        path: '',
+        redirectTo: '/overview',
+        pathMatch: 'full'
+    },
+    
     {path: '**',
         loadComponent: () => import('./features/overview/overview.component').then(m => m.OverviewComponent)
     },
