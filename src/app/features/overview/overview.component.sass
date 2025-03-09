@@ -22,7 +22,6 @@
 
             span
                 @extend .preset-4
-                font-weight: 400
 
             p
                 @extend .preset-1
@@ -30,3 +29,17 @@
         .current
             background-color: $grey900
             color: $white
+
+    .content
+        @include flex-container(flex, null, null, column)
+        gap: 1.5rem
+
+        .left-side, .right-side
+            @include flex-container(flex, null, null, column)
+            gap: 1rem
+
+            .tile
+                border-radius: 0.75rem
+                padding: 1.5rem 1.25rem
+                background-color: $white
+        

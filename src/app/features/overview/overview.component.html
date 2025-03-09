@@ -19,6 +19,28 @@
 
     </section>
 
-    <section class="content"></section>
+    <section class="content">
+        <div class="left-side">
+
+            <div class="tile">
+                <app-overview-pots [pots]="pots()"/>
+            </div>
+
+            <div class="tile">
+                <app-transactions/>
+            </div>
+        </div>
+
+        <div class="right-side">
+
+            <div class="tile">
+                <app-budgets/>
+            </div>
+
+            <div class="tile">
+                <app-recurring-bills/>
+            </div>
+        </div>
+    </section>
 
 </div>
