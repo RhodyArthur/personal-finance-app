@@ -1,0 +1,33 @@
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_variables' as *
+
+.sidebar-container
+    @include flex-container(flex, space-between, center, row)
+    padding: 0.5rem 1rem 0
+    background-color: $grey900
+    border-radius: 0.5rem 0.5rem 0 0
+    
+    .sidebar
+        @include flex-container(flex, space-between, center, row)
+        width: 100%
+
+        .menu
+            @include flex-container(flex, center, center, column)
+            padding: 0.5rem 0 0.75rem
+            border-radius: 0.5rem 0.5rem 0 0
+            border-bottom: 4px solid $grey900
+            gap: 4px
+            width: 100%
+            text-decoration: none
+            
+            .icon
+                width: 1.5rem
+                height: 1.5rem
+
+
+            .name
+                display: none
+
+            &.active
+                background-color: $beige100
+                border-bottom-color: $green 
