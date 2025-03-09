@@ -9,7 +9,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/transactions/transactions.component').then(m => m.TransactionsComponent)
     },
     {
-        path: 'budegts',
+        path: 'budgets',
         loadComponent: () => import('./features/budgets/budgets.component').then(m => m.BudgetsComponent)
     },
     {
@@ -19,5 +19,8 @@ export const routes: Routes = [
     {
         path: 'recurring bills',
         loadComponent: () => import('./features/recurring-bills/recurring-bills.component').then(m => m.RecurringBillsComponent)
+    },
+    {path: '**',
+        loadComponent: () => import('./features/overview/overview.component').then(m => m.OverviewComponent)
     },
 ];
