@@ -1,28 +1,10 @@
 <div class="sidebar-container">
     <div class="sidebar">
-        <div class="menu">
-            <img src="../../../assets/images/icon-nav-overview.svg" alt="overview icon">
-            <p>Overview</p>
-        </div>
-
-        <div class="menu">
-            <img src="../../../assets/images/icon-nav-overview.svg" alt="overview icon">
-            <p>Transactions</p>
-        </div>
-
-        <div class="menu">
-            <img src="../../../assets/images/icon-nav-overview.svg" alt="overview icon">
-            <p>Budgets</p>
-        </div>
-
-        <div class="menu">
-            <img src="../../../assets/images/icon-nav-overview.svg" alt="overview icon">
-            <p>Pots</p>
-        </div>
-
-        <div class="menu">
-            <img src="../../../assets/images/icon-nav-overview.svg" alt="overview icon">
-            <p>Recurring bills</p>
-        </div>
+        @for (item of items; track $index) {
+            <a class="menu">
+                <img [src]="item.path" alt="{{item.name}}">
+                <p class="name">{{item.name}}</p>
+            </a>
+        }
     </div>
 </div>

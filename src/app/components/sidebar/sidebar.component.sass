@@ -1,0 +1,9 @@
+@use '../../../styles/_mixin' as *
+
+.sidebar-container
+    .sidebar
+        border: 1px solid red
+        @include flex-container($display: flex, $position: center, $align: center, $direction: row)
+        padding: 0.5rem 0.75rem
+        gap: 0.25rem
+        text-align: center
