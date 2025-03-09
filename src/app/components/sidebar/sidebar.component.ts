@@ -13,6 +13,7 @@ export class SidebarComponent {
   svgService = inject(SvgService)
 
   items = this.svgService.items;
+  
   activeIcon = this.svgService.getActiveIcon();
 
   setActiveIcon(icon: string) {

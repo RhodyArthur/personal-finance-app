@@ -1,0 +1,10 @@
+@use '../styles/_mixin' as *
+@use '../styles/_variables' as *
+
+.main-container
+    @include flex-container(flex, space-between, null, column)
+    background-color: $beige100
+    height: 100vh
+
+    .container
+        padding: 1.5rem 1rem

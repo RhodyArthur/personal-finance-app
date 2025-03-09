@@ -1,1 +1,24 @@
-<p>overview works!</p>
+<div class="container">
+    <h2 class="content-title">Overview</h2>
+
+    <section class="summary">
+        <div class="card current">
+            <span>Current Balance</span>
+            <p>{{balance().current | currency}}</p>
+        </div>
+
+        <div class="card">
+            <span>Income</span>
+            <p>{{balance().expenses | currency}}</p>
+        </div>
+
+        <div class="card">
+            <span>Expenses</span>
+            <p>{{balance().income | currency}}</p>
+        </div>
+
+    </section>
+
+    <section class="content"></section>
+
+</div>
