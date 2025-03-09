@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { NavItems } from '../core/models/nav-items';
 
 @Injectable({
@@ -17,5 +17,18 @@ export class SvgService {
     return this.#navList; 
   }
 
-  
+  active = signal<string | null>( typeof window !== 'undefined' && localStorage.getItem('active-icon') 
+  ? localStorage.getItem('active-icon') 
+  : 'overview');
+
+  setActiveIcon(icon: string) {
+    this.active.set(icon);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('activeIcon', icon);
+    }
+  }
+
+  getActiveIcon(): string | null {
+    return this.active();
+  }
 }
