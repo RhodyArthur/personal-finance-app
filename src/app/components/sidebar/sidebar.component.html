@@ -1,8 +1,10 @@
 <div class="sidebar-container">
     <div class="sidebar">
         @for (item of items; track $index) {
-            <a class="menu">
-                <img [src]="item.path" alt="{{item.name}}">
+            <a class="menu" [routerLink]="['/', item.name]" routerLinkActive="active"
+            [class.active]="activeIcon === item.name"
+            (click)="setActiveIcon(item.name)">
+                <img [src]="item.path" alt="{{item.name}}" class="icon">
                 <p class="name">{{item.name}}</p>
             </a>
         }
