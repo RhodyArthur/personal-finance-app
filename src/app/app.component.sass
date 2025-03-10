@@ -1,3 +1,4 @@
+@use '../styles/_breakpoints'
 @use '../styles/_mixin' as *
 @use '../styles/_variables' as *
 
@@ -8,3 +9,9 @@
     .container
         padding: 1.5rem 1rem
         background-color: $beige100
+
+// media queries
+@include breakpoints.mq(tablet)
+    .main-container
+        .container
+            padding: 2rem 2.5rem
