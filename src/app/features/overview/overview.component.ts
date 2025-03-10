@@ -9,10 +9,11 @@ import { OverviewTransactionsComponent } from "../overview-transactions/overview
 import { Transaction } from '../../core/models/transactions';
 import { Budget } from '../../core/models/budgets';
 import { OverviewBudgetsComponent } from "../overview-budgets/overview-budgets.component";
+import { OverviewRecurringBillsComponent } from "../overview-recurring-bills/overview-recurring-bills.component";
 
 @Component({
   selector: 'app-overview',
-  imports: [CurrencyPipe, RecurringBillsComponent, OverviewPotsComponent, OverviewTransactionsComponent, OverviewBudgetsComponent],
+  imports: [CurrencyPipe, OverviewPotsComponent, OverviewTransactionsComponent, OverviewBudgetsComponent, OverviewRecurringBillsComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.sass'
 })

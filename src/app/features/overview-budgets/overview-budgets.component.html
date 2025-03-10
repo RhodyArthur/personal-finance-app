@@ -1,1 +1,31 @@
-<p>overview-budgets works!</p>
+<main class="container">
+    <section class="small-content">
+        <h2>Budgets</h2>
+
+        <a [routerLink]="['/budgets']">
+            See Details
+            <img src="/assets/images/icon-caret-right.svg" alt="caret-right">
+        </a>
+    </section>
+
+    <section class="content">
+        <div class="chart">
+            <p-chart type="doughnut" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
+        </div>
+
+        <div class="line">
+            @for (budget of firstFourBudgets(); track $index) {
+                <div class="budget">
+                    <span class="theme"
+                    [style.backgroundColor]="budget.theme"></span>
+        
+                    <div class="text">
+                        <span>{{budget.category}}</span>
+                        <p>{{budget.maximum | currency}}</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </section>
+</main>

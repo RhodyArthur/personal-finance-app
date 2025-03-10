@@ -1,3 +1,4 @@
+@use '../../../styles/_breakpoints'
 @use '../../../styles/_mixin' as *
 @use '../../../styles/_typography' as *
 @use '../../../styles/_variables' as *
@@ -11,6 +12,7 @@
 
         h2
             @extend .preset-2
+            color: $grey900
 
         a
             @include flex-container(flex, space-between, center, row)
@@ -75,3 +77,16 @@
                             font-weight: 700
                 
 
+// media queries
+@include breakpoints.mq(tablet)
+    .container
+
+        .content
+            @include flex-container(flex, space-between, null, row)
+
+            .col
+                width: 40%
+                gap: 1.25rem
+
+            .col-1
+                width: 60%
