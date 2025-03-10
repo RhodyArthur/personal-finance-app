@@ -1,0 +1,30 @@
+<main class="container">
+    <section class="small-content">
+        <h2>Transactions</h2>
+
+        <a [routerLink]="['/transactions']">
+            View All
+            <img src="/assets/images/icon-caret-right.svg" alt="caret-right">
+        </a>
+    </section>
+
+    <section class="content">
+
+        @for (transaction of firstFive(); track $index) {
+            <div class="card">
+                <div class="image-title">
+                    <img [src]="transaction.avatar" alt="avatar" class="avatar">
+                    <p class="title">{{transaction.name}}</p>
+                </div>
+    
+                <div class="value-date">
+                    <p class="value" [style.color]="transaction.amount < 0 ? '#277c78' : '#201f24'" >
+                    {{transaction.amount | currency}}</p>
+                    <p class="date">{{transaction.date | date:'dd MMM, YYYY'}}</p>
+                </div>
+            </div>
+
+            <hr>
+        }
+    </section>
+</main>
