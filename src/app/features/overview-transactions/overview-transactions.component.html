@@ -18,13 +18,16 @@
                 </div>
     
                 <div class="value-date">
-                    <p class="value" [style.color]="transaction.amount < 0 ? '#277c78' : '#201f24'" >
-                    {{transaction.amount | currency}}</p>
+                    <p class="value" [style.color]="transaction.amount < 0 ? '#201f24' : '#277c78'" >
+                        
+                     {{transaction.amount < 0 ? `${transaction.amount | currency}` : `+${transaction.amount | currency}`}}
+                </p>
+
                     <p class="date">{{transaction.date | date:'dd MMM, YYYY'}}</p>
                 </div>
             </div>
 
-            <hr>
+            <span class="hr"></span>
         }
     </section>
 </main>

@@ -17,7 +17,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/pots/pots.component').then(m => m.PotsComponent)
     },
     {
-        path: 'recurring bills',
+        path: 'recurring-bills',
         loadComponent: () => import('./features/recurring-bills/recurring-bills.component').then(m => m.RecurringBillsComponent)
     },
     {
