@@ -1,0 +1,27 @@
+@use '../../../styles/_breakpoints'
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_variables' as *
+
+.container
+    @include flex-container(flex, null, null, column)
+    gap: 2rem
+
+    .title
+        @include flex-container(flex, null, null, row)
+        gap: 1.5rem
+        padding: 0.5rem 
+        
+        h2
+            @extend .preset-1
+            color: $grey900
+
+    .content
+        @include flex-container(flex, null, null, column)
+        gap: 1.5rem
+        padding: 1.5rem 1.25rem
+        border-radius: 0.75rem
+        background-color: $white
+
+        
+    
