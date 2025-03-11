@@ -1,1 +1,28 @@
-<p>overview-recurring-bills works!</p>
+<main class="container">
+    <section class="small-content">
+        <h2>Recurring Bills</h2>
+
+        <a [routerLink]="['/recurring-bills']">
+            See Details
+            <img src="/assets/images/icon-caret-right.svg" alt="caret-right">
+        </a>
+    </section>
+
+    <section class="content">
+        <div class="col green">
+            <p class="name">Paid Bills</p>
+            <span class="value">{{paidBills()}}</span>
+        </div>
+
+        <div class="col yellow">
+            <p class="name">Total Upcoming</p>
+            <span class="value">$300</span>
+        </div>
+
+        <div class="col cyan">
+            <p class="name">Due Soon</p>
+            <span class="value">$300</span>
+        </div>
+    </section>
+    
+</main>
