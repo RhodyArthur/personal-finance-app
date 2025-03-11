@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, computed, effect, inject, input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Budget } from '../../core/models/budgets';
 import { RouterLink } from '@angular/router';
 import { ChartModule } from 'primeng/chart';
-import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-overview-budgets',
@@ -10,69 +10,36 @@ import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
   templateUrl: './overview-budgets.component.html',
   styleUrl: './overview-budgets.component.sass'
 })
-export class OverviewBudgetsComponent implements OnInit{
+export class OverviewBudgetsComponent{
   budgets = input.required<Budget[]>();
 
   firstFourBudgets = computed(() => this.budgets().slice(0, 4));
 
-  data: any;
+  #labels = computed(() => this.firstFourBudgets().map(budget => budget.category));
+  #values = computed(() => this.firstFourBudgets().map(budget => budget.maximum));
+  #themes = computed(() => this.firstFourBudgets().map(budget => budget.theme));
 
-  options: any;
-
-  platformId = inject(PLATFORM_ID);
-   
-  constructor(private cdr: ChangeDetectorRef) {}
-
-  // configService = inject(AppConfigService);
-
-  //   designerService = inject(DesignerService);
+  totalBudget = computed(() => this.budgets().reduce((acc, budget) => acc + budget.maximum, 0))
 
 
-  //   themeEffect = effect(() => {
-  //       if (this.configService.transitionComplete()) {
-  //           if (this.designerService.preset()) {
-  //               this.initChart();
-  //           }
-  //       }
-  //   });
-
-  labels = computed(() => this.firstFourBudgets().map(budget => budget.category));
-  maximum = computed(() => this.firstFourBudgets().map(maxi => maxi.maximum));
-
-  ngOnInit() {
-    this.initChart();
-  }
-  
-
-  initChart() {
-    if(isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-
-      this.data = {
-        labels: this.labels(),
-        datasets: [
-          {
-            data: this.maximum(),
-            backgroundColor: [documentStyle.getPropertyValue('--p-cyan-500'), documentStyle.getPropertyValue('--p-orange-500'), documentStyle.getPropertyValue('--p-gray-500')],
-            hoverBackgroundColor: [documentStyle.getPropertyValue('--p-cyan-400'), documentStyle.getPropertyValue('--p-orange-400'), documentStyle.getPropertyValue('--p-gray-400')]
-          }
-        ]
-      };
-
-      this.options = {
-        cutout: '60%',
-        plugins: {
-            legend: {
-                labels: {
-                    color: textColor
-                }
-            }
+  chartSignal = computed(() => ({
+      labels: this.#labels(),
+      datasets: [
+        {
+          data: this.#values(),
+          backgroundColor: this.#themes(),
+          hoverBackgroundColor: ['#145D58', '#6ABDE8', '#C9A78C', '#525053'],
+          borderWidth: 0
         }
-    };
-    this.cdr.markForCheck()
+      ]  
+  }))
 
-
+  chartOptions = {
+    cutout: '60%',
+    plugins: {
+      legend: {
+        display: false,
+      }
     }
   }
 

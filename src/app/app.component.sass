@@ -1,6 +1,7 @@
 @use '../styles/_breakpoints'
 @use '../styles/_mixin' as *
 @use '../styles/_variables' as *
+@use '../styles/_function' as *
 
 .main-container
     @include flex-container(flex, space-between, null, column)
@@ -15,3 +16,22 @@
     .main-container
         .container
             padding: 2rem 2.5rem
+
+@include breakpoints.mq(desktop)
+    .main-container
+        @include flex-container(flex, null, null, row-reverse)
+        background-color: $beige100
+        height: 100vh
+        overflow: hidden
+
+        .container
+            flex: 1
+            overflow: scroll
+            scrollbar-width: none
+            scroll-behavior: smooth
+            height: 100%
+            padding: 2rem 2.5rem
+
+        .sidebar
+            width: pxToRem(300)
+        

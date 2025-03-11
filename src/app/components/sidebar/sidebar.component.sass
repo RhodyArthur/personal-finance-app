@@ -1,11 +1,16 @@
+@use '../../../styles/_breakpoints'
 @use '../../../styles/_mixin' as *
 @use '../../../styles/_variables' as *
+@use '../../../styles/_typography' as *
 
 .sidebar-container
     @include flex-container(flex, space-between, center, row)
     padding: 0.5rem 1rem 0
     background-color: $grey900
     border-radius: 0.5rem 0.5rem 0 0
+
+    .logo
+        display: none
     
     .sidebar
         @include flex-container(flex, space-between, center, row)
@@ -33,7 +38,67 @@
 
             &.active
                 background-color: $beige100
-                border-bottom-color: $green 
+                border-bottom-color: $green
 
                 .icon
                     fill: $green
+
+    .minimize
+        display: none
+
+@include breakpoints.mq(desktop)
+    .sidebar-container
+        @include flex-container(flex, flex-start, flex-start, column)
+        gap: 1.5rem
+        border-radius: 0 1rem 1rem 0
+        padding: 0 0 1.5rem
+        border-right: 1px
+        height: 100vh
+
+        .logo
+            display: block
+            padding: 2.5rem 2rem
+            color: $white
+
+        .sidebar
+            @include flex-container(flex, flex-start, null, column)
+            gap: 4px
+            padding-right: 1.5rem
+            height: 80%
+
+            .menu
+                @include flex-container(flex, flex-start, null, row)
+                gap: 1rem
+                padding: 1rem 2rem
+                border-radius: 0 0.75rem 0.75rem 0
+                border-bottom: none
+
+                .name
+                    display: flex
+                    font-size: 1.25rem
+                    font-weight: 700
+                    color: $grey300
+
+                &.active
+                    border-left: 4px solid $green
+
+                    .name
+                        color: $grey900
+                
+
+
+        .minimize
+            @include flex-container(flex, flex-start, center, row)
+            gap: 1rem
+            padding: 1rem 2rem
+            background-color: $grey900
+            color: $grey300
+            font-size: 1.25rem
+            border: none
+            cursor: pointer
+
+            img
+                width: 1.5rem
+                height: 1.5rem
+
+        

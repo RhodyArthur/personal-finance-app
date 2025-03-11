@@ -57,3 +57,21 @@
 
                 .tile
                     padding: 2rem
+
+@include breakpoints.mq(desktop)
+    .container
+        .content-title
+            padding: 0.5rem 0
+
+        .summary
+            gap: 1.5rem
+
+            .card
+                width: 100%
+
+        .content
+            @include flex-container(flex, space-between, null, row)
+            gap: 1.5rem
+
+            .left-side
+                flex: 1

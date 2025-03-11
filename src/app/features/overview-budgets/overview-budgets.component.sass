@@ -24,6 +24,30 @@
         gap: 1rem
         padding: 0.5rem 0
 
+        .chart
+            @include flex-container(flex, null, center, row)
+            gap: 0.5rem
+            position: relative
+
+            .text
+                @include flex-container(flex, null, center, column)
+                gap: 0.5rem
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+
+                .value
+                    @extend .preset-1
+                    color: $grey900
+
+                .total
+                    @extend .preset-5
+                    font-weight: 400
+                    color: $grey500
+                
+            
+
         .line
             display: grid
             grid-template-columns: repeat(2, 1fr)
@@ -59,5 +83,12 @@
 
             .line
                 @include flex-container(flex, null, null, column)
+
+                .budget
+
+                    .theme
+                        width: 4px
+                        height: 43px
+                        border-radius: 0.5rem
                     
             

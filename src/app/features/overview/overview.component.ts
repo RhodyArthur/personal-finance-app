@@ -20,6 +20,7 @@ import { OverviewRecurringBillsComponent } from "../overview-recurring-bills/ove
 export class OverviewComponent {
   #data = signal({});
   dataService = inject(DataService);
+  
   balance = signal<Balance>({
     current: 0,
     income: 0,
@@ -50,10 +51,5 @@ export class OverviewComponent {
       console.log(err);
     }
   }
-
-  recurringBills = computed(() => {
-    const data = this.transactions();
-    return data.filter(d => d.recurring === true);
-  })
 
 }

@@ -10,7 +10,12 @@
 
     <section class="content">
         <div class="chart">
-            <p-chart type="doughnut" [data]="data" [options]="options" class="w-full md:w-[30rem]" />
+            <p-chart type="doughnut" [data]="chartSignal()" [options]="chartOptions" class="w-full md:w-[15rem]"/>
+
+            <div class="text">
+                <span class="value">$338</span>
+                <p class="total">of ${{totalBudget()}} limit</p>
+            </div>
         </div>
 
         <div class="line">
