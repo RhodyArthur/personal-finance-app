@@ -1,0 +1,50 @@
+@use '../../../styles/_breakpoints'
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_variables' as *
+
+.container
+    @include flex-container(flex, null, null, column)
+    gap: 2rem
+
+    .small-content
+        @include flex-container(flex, space-between, center, row)
+
+        h2
+            @extend .preset-2
+            color: $grey900
+
+        a
+            @include flex-container(flex, space-between, center, row)
+            gap: 0.75rem
+            color: $grey500
+            cursor: pointer
+        
+    .content
+        @include flex-container(flex, null, null, column)
+        gap: 0.75rem
+
+        .col
+            @include flex-container(flex, space-between, null, row)
+            border-radius: 0.5rem
+            padding: 1.25rem 1rem
+            background-color: $beige100
+
+            .name, .value
+                @extend .preset-4
+
+            .name
+                color: $grey500
+
+            .value
+                font-weight: 700
+                color: $grey900
+
+        .green
+            border-left: 4px solid $green
+            
+        .yellow
+            border-left: 4px solid $yellow
+
+        .cyan
+            border-left: 4px solid $cyan
