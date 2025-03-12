@@ -16,7 +16,7 @@ import { DataService } from '../../services/data.service';
 export class TransactionsComponent {
 
   transactions = signal<Transaction[]>([]);
-  route = inject(ActivatedRoute);
+  activatedRoute = inject(ActivatedRoute);
   dataService = inject(DataService);
 
   constructor() {
@@ -25,10 +25,8 @@ export class TransactionsComponent {
 
   async loadTransactions() {
     try {
-      const data = await firstValueFrom(this.route.data);
-      if (data && Array.isArray(data['transactions'])) {
-        this.transactions.set(data['transactions']);
-      }
+      const data = await firstValueFrom(this.activatedRoute.data);
+      this.transactions.set(data['transactions']['transactions'])
     } catch (error) {
       console.error('Error loading transactions:', error);
     }
