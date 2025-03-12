@@ -46,6 +46,22 @@
     .minimize
         display: none
 
+@include breakpoints.mq(tablet)
+    .sidebar-container
+        .sidebar
+            .menu
+                .name
+                    display: flex
+                    font-size: 0.75rem
+                    font-weight: 700
+                    color: $grey300
+
+                &.active
+                    .name
+                        color: $grey900
+
+
+
 @include breakpoints.mq(desktop)
     .sidebar-container
         @include flex-container(flex, flex-start, flex-start, column)

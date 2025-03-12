@@ -1,8 +1,7 @@
-import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
+import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { Balance } from '../../core/models/balance';
 import { CurrencyPipe } from '@angular/common';
-import { RecurringBillsComponent } from "../recurring-bills/recurring-bills.component";
 import { Pot } from '../../core/models/pots';
 import { OverviewPotsComponent } from "../overview-pots/overview-pots.component";
 import { OverviewTransactionsComponent } from "../overview-transactions/overview-transactions.component";
@@ -37,6 +36,8 @@ export class OverviewComponent {
     afterNextRender(() => this.loadData())
   }
 
+  
+
   async loadData() {
     try {
         const data = await this.dataService.loadAllData();
@@ -51,5 +52,6 @@ export class OverviewComponent {
       console.log(err);
     }
   }
+
 
 }

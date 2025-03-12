@@ -1,0 +1,25 @@
+@use '../../../styles/_breakpoints'
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_variables' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_function' as *
+
+.input
+    @include flex-container(flex, space-between, center, row)
+    gap: 1rem
+    border-radius: 0.5rem
+    padding: 0.75rem 1.25rem
+    background-color: $white
+    border: 1px solid $beige500
+    cursor: pointer
+
+    input
+        border: none
+        outline: none
+        width: 85%
+        @extend .preset-4
+        color: $beige500
+
+    img
+        width: 1rem
+        height: 1rem
