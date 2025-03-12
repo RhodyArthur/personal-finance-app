@@ -6,10 +6,51 @@
     <section class="content">
 
         <div class="input-fields">
-            
+
+            <app-input-field
+            type="text"
+            placeholder="Search transaction"
+            imgPath="assets/images/icon-search.svg"/>
+
+            <div class="sort-filter">
+                <img src="assets/images/icon-sort-mobile.svg" alt="sort icon">
+                <img src="assets/images/icon-filter-mobile.svg" alt="filter icon">
+            </div>
+
         </div>
 
-        <div class="table-list"></div>
+        <div class="table-list">
+            <p-table
+                [value]="transactions()"
+                [paginator]="true"
+                [rows]="10"
+            >
+            <ng-template #header>
+                <tr>
+                    <th style="width:25%">Receipent/Sender</th>
+                    <th style="width:25%">Category</th>
+                    <th style="width:25%">Transaction Date</th>
+                    <th style="width:25%">Amount</th>
+                </tr>
+            </ng-template>
+
+            <ng-template #body let-transaction>
+                <tr>
+                    <td>
+                        <div class="image-name">
+                            <img [src]="transaction.avatar" alt="">
+                            <span>{{transaction.name}}</span>
+    
+                        </div>
+
+                    </td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.amount }}</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </div>
 
         <div class="pagination"></div>
 
