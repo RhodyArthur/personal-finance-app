@@ -1,0 +1,21 @@
+@use '../../../styles/_variables' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_mixin' as *
+
+.select-container
+    @include flex-container(flex, center, center, row)
+    gap: 0.5rem
+
+    label
+        @extend .preset-4
+        color: $grey500
+
+    select
+        padding: 0.75rem 1.25rem
+        gap: 1rem
+        border-radius: 0.5rem
+        border: 1px solid $beige500
+        color: $grey900
+
+        &:active, &:focus, &:hover
+            border-color: $grey900

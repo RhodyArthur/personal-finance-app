@@ -9,21 +9,41 @@
 
             <app-input-field
             type="text"
-            placeholder="Search transaction"
-            imgPath="assets/images/icon-search.svg"/>
+            id="input"
+            placeholder="Search transactions"
+            imgPath="assets/images/icon-search.svg" #search (keyup.enter)="onSearch()"           
+            />
 
             <div class="sort-filter">
-                <img src="assets/images/icon-sort-mobile.svg" alt="sort icon">
-                <img src="assets/images/icon-filter-mobile.svg" alt="filter icon">
+                <div class="mobile">
+                    <img src="assets/images/icon-sort-mobile.svg" alt="sort icon">
+                    <img src="assets/images/icon-filter-mobile.svg" alt="filter icon">
+                </div>
+                <div class="tab-desk">
+                    <app-select 
+                    label="Sort by"
+                    [options]="sortList()"
+                    [(value)]="sortItem"
+
+                    />
+                    <app-select
+                    label="Category"
+                    [options]="transactionsCategory()"
+                    [(value)]="category"
+                    (valueChange)="onFilteredCategory($event)"
+                    />
+
+                </div>
             </div>
 
         </div>
 
-        <div class="table-list">
+        <div class="table-list" >
             <p-table
                 [value]="transactions()"
                 [paginator]="true"
                 [rows]="10"
+                ngSkipHydration
             >
             <ng-template #header>
                 <tr class="header">
@@ -59,7 +79,8 @@
                         </div>
                     </td>
                 </tr>
-                <span class="hr"></span>
+                <hr>
+                <!-- <span class="hr"></span> -->
             </ng-template>
             </p-table>
         </div>
