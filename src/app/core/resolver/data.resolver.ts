@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular
 import { inject } from "@angular/core";
 import { DataService } from "../../services/data.service";
 
-export const dataResolver: ResolveFn<unknown> = async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const dataResolver: ResolveFn<any> = async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const dataService = inject(DataService);
   try {
     const data = await dataService.loadAllData();

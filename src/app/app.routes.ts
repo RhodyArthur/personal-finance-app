@@ -4,7 +4,8 @@ import { dataResolver } from './core/resolver/data.resolver';
 export const routes: Routes = [
   {
     path: 'overview',
-    loadComponent: () => import('./features/overview/overview.component').then(m => m.OverviewComponent)
+    loadComponent: () => import('./features/overview/overview.component').then(m => m.OverviewComponent),
+    resolve: {overview: dataResolver}
   },
   {
     path: 'transactions',

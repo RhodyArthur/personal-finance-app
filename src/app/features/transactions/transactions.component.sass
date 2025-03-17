@@ -1,5 +1,6 @@
 @use '../../../styles/_breakpoints'
 @use '../../../styles/_mixin' as *
+@use '../../../styles/_function' as *
 @use '../../../styles/_typography' as *
 @use '../../../styles/_variables' as *
 
@@ -26,18 +27,215 @@
         .input-fields
             @include flex-container(flex, space-between, center, row)
             gap: 1.5rem
-            width: 100%
 
             .sort-filter
-                @include flex-container(flex, null, null, row)
-                gap: 1.5rem
+                .mobile
+                    @include flex-container(flex, null, null, row)
+                    gap: 1.5rem
 
-                img
-                    width: 1.25rem
-                    height: 1.25rem
+                    img
+                        width: 1.25rem
+                        height: 1.25rem
 
-
-            
-
+                .tab-desk
+                    display: none
         
+        .table-list
+            ::ng-deep .p-datatable-thead
+                display: none
+
+            ::ng-deep .p-datatable-tbody
+                @include flex-container(flex, null, null, column)
+                gap: 1rem
+
+                tr
+                    @include flex-container(flex, space-between, center, row)
+                    border-radius: 0.5rem
+                    
+                    td
+                        border-style: none
+
+                        .image-name
+                            @include flex-container(flex, null, center, row)
+                            gap: 0.75rem
+
+                            img
+                                width: 2rem
+                                height: 2rem
+                                border-radius: 50%
+                                background-color: $beige100
+
+                            .name-cat
+                                @include flex-container(flex, null, null, column)
+                                gap: 0.5rem
+
+                                .name
+                                    @extend .preset-4
+                                    font-weight: 700
+                                    color: $grey900
+
+                                .cat
+                                    @extend .preset-5
+                                    color: $grey500
+                    
+                    .tab-cat, .tab-date
+                        display: none
+
+                    .date-amount
+                        @include flex-container(flex, null, flex-end, column-reverse)
+                        gap: 4px
+
+                        .date
+                            @extend .preset-5
+                            color: $grey500
+
+                        .amount
+                            @extend .preset-4
+                            font-weight: 700
+
+            ::ng-deep .p-paginator
+                @include flex-container(flex, null, center, row)
+                gap: 0.875rem
+                padding-top: 3rem
+                
+
+                ::ng-deep span.p-paginator-pages
+                    @include flex-container(flex, null, center, row)
+                    gap: 0.5rem
+                    
+                ::ng-deep button.p-ripple.p-paginator-page, button.p-ripple.p-paginator-prev, button.p-ripple.p-paginator-next
+                    @include flex-container(flex, center, center, row)
+                    gap: 1rem
+                    width: 2rem
+                    height: 2rem
+                    padding: 1rem
+                    border-radius: 0.5rem
+                    background-color: $white
+                    border: 1px solid $beige500
+
+                ::ng-deep button.p-ripple.p-paginator-page.p-paginator-page-selected
+                    background-color: $grey900
+                    color: $white
+                
+                ::ng-deep button.p-ripple.p-paginator-first, button.p-ripple.p-paginator-last
+                    display: none
+
+                    
+
+
+            .hr, hr
+                width: 100%
+                height: 1px
+                border: 1px solid $grey100
+
+            span.hr:last-of-type, hr:last-of-type
+                display: none
+
+
+@include breakpoints.mq(tablet)
+    .container
+        .content
+            .input-fields
+                #input
+                    width: 25% !important
+
+                #input::placeholder
+                    content: 'Search by name'
+
+                .sort-filter
+                    .mobile
+                        display: none
+
+                    .tab-desk
+                        @include flex-container(flex, null, center, row)
+                        gap: 1.5rem
+
+                    
+                        
+                        
+            .table-list
+                ::ng-deep .p-datatable-thead
+                    @include flex-container(flex, space-between, center, row)
+                    gap: 2rem
+                    border-color: $grey100
+
+                    tr.header 
+                        @include flex-container(flex, space-between, center, row)
+                        gap: 2rem
+                        padding-block: 1rem
+                        width: 100%
+
+                    th
+                        color: $grey500
+                        font-size: 0.75rem
+                        font-weight: 400
+                        border-style: none
+                    th:first-of-type
+                        width: 17rem
+
+                ::ng-deep .p-datatable-tbody
+
+                    tr
+                        @include flex-container(flex, null, center, row)
+                        gap: 2rem
+
+                        td
+                            justify-content: space-between
+                            width: 100%
+
+                            .image-name
+                                gap: 1rem
+                                width: 17rem
+
+                                .name-cat
+                                    @include flex-container(flex, null, center, row)
+
+                                    .cat
+                                        display: none
+                            
+                            .date-amount
+                                .date
+                                    display: none
+                                                            
+                        
+                        .tab-cat, .tab-date
+                            @include flex-container(flex, flex-start, center, row)
+                            font-size: 0.75rem
+                            color: $grey500
+                            justify-content: flex-start
+
+                ::ng-deep .p-paginator
+                    @include flex-container(flex, space-between, center, row)
+                    padding-top: 3rem
+                    gap: 4px
+
+                    ::ng-deep span.p-paginator-pages
+                        @include flex-container(flex, null, center, row)
+                        gap: 0.5rem
+                        
+                    ::ng-deep button.p-ripple.p-paginator-page, button.p-ripple.p-paginator-prev, button.p-ripple.p-paginator-next
+                        @include flex-container(flex, center, center, row)
+                        gap: 1rem
+                        width: 2.5rem
+                        height: 2.5rem
+                        padding: 1rem
+                        border-radius: 0.5rem
+                        background-color: $white
+                        border: 1px solid $beige500
+
+                    ::ng-deep button.p-ripple.p-paginator-page.p-paginator-page-selected
+                        background-color: $grey900
+                        color: $white
+                    
+                    ::ng-deep button.p-ripple.p-paginator-first, button.p-ripple.p-paginator-last
+                        display: none
+
+
+                            
+                            
+
+                    
+
+
+
     

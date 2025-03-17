@@ -1,0 +1,9 @@
+<div class="select-container">
+    <label>{{label()}}</label>
+
+    <select [value]="value()" (change)="onSelectedItem(item.value)" #item>
+        @for (option of options(); track $index) {
+            <option value="{{option}}">{{option}}</option>
+        }
+    </select>
+</div>

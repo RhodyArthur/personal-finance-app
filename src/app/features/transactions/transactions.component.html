@@ -9,28 +9,48 @@
 
             <app-input-field
             type="text"
-            placeholder="Search transaction"
-            imgPath="assets/images/icon-search.svg"/>
+            id="input"
+            placeholder="Search transactions"
+            imgPath="assets/images/icon-search.svg" #search (keyup.enter)="onSearch()"           
+            />
 
             <div class="sort-filter">
-                <img src="assets/images/icon-sort-mobile.svg" alt="sort icon">
-                <img src="assets/images/icon-filter-mobile.svg" alt="filter icon">
+                <div class="mobile">
+                    <img src="assets/images/icon-sort-mobile.svg" alt="sort icon">
+                    <img src="assets/images/icon-filter-mobile.svg" alt="filter icon">
+                </div>
+                <div class="tab-desk">
+                    <app-select 
+                    label="Sort by"
+                    [options]="sortList()"
+                    [(value)]="sortItem"
+
+                    />
+                    <app-select
+                    label="Category"
+                    [options]="transactionsCategory()"
+                    [(value)]="category"
+                    (valueChange)="onFilteredCategory($event)"
+                    />
+
+                </div>
             </div>
 
         </div>
 
-        <div class="table-list">
+        <div class="table-list" >
             <p-table
                 [value]="transactions()"
                 [paginator]="true"
                 [rows]="10"
+                ngSkipHydration
             >
             <ng-template #header>
-                <tr>
-                    <th style="width:25%">Receipent/Sender</th>
-                    <th style="width:25%">Category</th>
-                    <th style="width:25%">Transaction Date</th>
-                    <th style="width:25%">Amount</th>
+                <tr class="header">
+                    <th>Receipent/Sender</th>
+                    <th>Category</th>
+                    <th>Transaction Date</th>
+                    <th>Amount</th>
                 </tr>
             </ng-template>
 
@@ -38,21 +58,32 @@
                 <tr>
                     <td>
                         <div class="image-name">
-                            <img [src]="transaction.avatar" alt="">
-                            <span>{{transaction.name}}</span>
-    
+                            <img [src]="transaction.avatar" alt="avatar">
+
+                            <div class="name-cat">
+                                <span class="name">{{transaction.name}}</span>
+                                <span class="cat">{{transaction.category}}</span>
+
+                            </div>
                         </div>
 
                     </td>
-                    <td>{{ transaction.category }}</td>
-                    <td>{{ transaction.date }}</td>
-                    <td>{{ transaction.amount }}</td>
+                    <td class="tab-cat">{{ transaction.category }}</td>
+                    <td class="tab-date">{{ transaction.date | date:"dd MMM YYYY"}}</td>
+                    <td>
+                        <div class="date-amount">
+                            <span class="date">{{ transaction.date | date:"dd MMM YYYY"}}</span>
+                            <span class="amount" [style.color]="transaction.amount < 0 ? '#201f24' : '#277c78'">
+                                {{transaction.amount < 0 ? `${transaction.amount | currency}` : `+${transaction.amount | currency}`}}
+                            </span>
+                        </div>
+                    </td>
                 </tr>
+                <hr>
+                <!-- <span class="hr"></span> -->
             </ng-template>
             </p-table>
         </div>
-
-        <div class="pagination"></div>
 
     </section>
 </main>
