@@ -52,12 +52,17 @@ export class TransactionsComponent {
   loadPersistedData() {
     const persistedData = localStorage.getItem('filteredTransactions');
     const persistedCategory = localStorage.getItem('selectedCategory');
+    const persistedSortItem = localStorage.getItem('sortItem');
     if (persistedData) {
       const transactions = JSON.parse(persistedData);
       this.transactions.set(transactions);
       if (transactions.length > 0 && persistedCategory) {
         this.category.set(persistedCategory);
       }
+    }
+    if (persistedSortItem) {
+      this.sortItem.set(persistedSortItem);
+      this.onSortItem(persistedSortItem);
     }
   }
 
@@ -80,6 +85,30 @@ export class TransactionsComponent {
       localStorage.setItem('filteredTransactions', JSON.stringify(resp));
       localStorage.setItem('selectedCategory', category);
       this.transactions.set(resp);
+    }
+  }
+
+  onSortItem(item: string) {
+    this.sortItem.set(item);
+    localStorage.setItem('sortItem', item);
+    switch (item) {
+      case 'Latest':
+        this.transactions.set(this.transactions().sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        break;
+      case 'Oldest':
+        this.transactions.set(this.transactions().sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+        break;
+      case 'A to Z':
+        this.transactions.set(this.transactions().sort((a,b) => a.name.localeCompare(b.name)));
+        break;
+      case 'Z to A':
+        this.transactions.set(this.transactions().sort((a,b) => b.name.localeCompare(a.name)));
+        break;
+      case 'Highest':
+        this.transactions.set(this.transactions().sort((a,b) => b.amount - a.amount) )
+        break;
+      case 'Lowest':
+        this.transactions.set(this.transactions().sort((a,b) => a.amount - b.amount) )
     }
   }
 
