@@ -24,7 +24,7 @@
                     label="Sort by"
                     [options]="sortList()"
                     [(value)]="sortItem"
-
+                    (valueChange)="onSortItem($event)"
                     />
                     <app-select
                     label="Category"
