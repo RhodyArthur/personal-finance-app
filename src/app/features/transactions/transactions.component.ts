@@ -1,4 +1,4 @@
-import { Component, computed, effect, ElementRef, inject, input, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, Signal, signal, ViewChild, viewChild } from '@angular/core';
 import { InputFieldComponent } from "../../components/input-field/input-field.component";
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
@@ -8,10 +8,11 @@ import { firstValueFrom } from 'rxjs';
 import { DataService } from '../../services/data.service';
 import { ResponsivePlaceholderDirective } from '../../core/responsive-placeholder.directive';
 import { SelectComponent } from "../../components/select/select.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions',
-  imports: [InputFieldComponent, TableModule, CommonModule, SelectComponent],
+  imports: [InputFieldComponent, TableModule, CommonModule, SelectComponent, FormsModule],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.sass']
 })
@@ -33,6 +34,7 @@ export class TransactionsComponent {
 
   category = signal<string>('All transactions');
   sortItem = signal<string>('Latest');
+  search = signal<string>('');
 
   constructor() {
     this.loadTransactions();
@@ -113,11 +115,29 @@ export class TransactionsComponent {
   }
 
   
-  searchInput = viewChild<ElementRef>("search");
 
-  onSearch() {
-    const query = this.searchInput()?.nativeElement.value;
-    console.log('searching for:', query);
+
+  onSearch(searchItem: string) {
+    this.search.set(searchItem);
+    if (searchItem) {
+      const response = this.allTransactions().filter(transaction => {
+        return (
+        transaction.name.toLowerCase().includes(searchItem.toLowerCase()) ||
+        transaction.category.toLowerCase().includes(searchItem.toLowerCase()) ||
+        transaction.amount.toString().includes(searchItem) || 
+        transaction.date.includes(searchItem)
+        )
+      });
+
+      if (response.length === 0) {
+        this.transactions.set(this.allTransactions());
+      }
+      else {
+        this.transactions.set(response);
+      }
+
+  }
   }
 
+  
 }
