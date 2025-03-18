@@ -1,12 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-input-field',
   imports: [CommonModule, FormsModule],
   templateUrl: './input-field.component.html',
-  styleUrl: './input-field.component.sass'
+  styleUrl: './input-field.component.sass',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputFieldComponent),
+      multi: true
+    }
+  ]
 })
 export class InputFieldComponent {
 
@@ -18,7 +25,6 @@ export class InputFieldComponent {
   isDisabled: boolean = false;
 
   private _value: string = '';
-
   get value(): string {
     return this._value;
   }
@@ -32,7 +38,7 @@ export class InputFieldComponent {
   onTouched = () => {};
 
   writeValue(value: string): void {
-    this.value = value;
+    this._value = value;
   }
 
   registerOnChange(fn: any): void {

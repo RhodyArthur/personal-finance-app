@@ -11,7 +11,9 @@
             type="text"
             id="input"
             placeholder="Search transactions"
-            imgPath="assets/images/icon-search.svg" #search (keyup.enter)="onSearch()"           
+            imgPath="assets/images/icon-search.svg"
+            [(ngModel)]="search"
+            (keyup)="onSearch(search())"           
             />
 
             <div class="sort-filter">
