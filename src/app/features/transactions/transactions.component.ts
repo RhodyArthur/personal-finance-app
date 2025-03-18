@@ -129,14 +129,8 @@ export class TransactionsComponent {
         )
       });
 
-      if (response.length === 0) {
-        this.transactions.set(this.allTransactions());
-      }
-      else {
-        this.transactions.set(response);
-      }
-
-  }
+      this.transactions.set(response);
+    }
   }
 
   

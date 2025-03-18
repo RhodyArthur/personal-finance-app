@@ -41,6 +41,12 @@
                     display: none
         
         .table-list
+            .no-results
+                @extend .preset-2
+                font-weight: 400
+                color: $grey500
+                text-align: center
+
             ::ng-deep .p-datatable-thead
                 display: none
 
@@ -92,6 +98,7 @@
                         .amount
                             @extend .preset-4
                             font-weight: 700
+
 
             ::ng-deep .p-paginator
                 @include flex-container(flex, null, center, row)

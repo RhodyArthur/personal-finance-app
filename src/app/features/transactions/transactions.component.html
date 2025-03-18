@@ -41,50 +41,56 @@
         </div>
 
         <div class="table-list" >
-            <p-table
-                [value]="transactions()"
-                [paginator]="true"
-                [rows]="10"
-                ngSkipHydration
-            >
-            <ng-template #header>
-                <tr class="header">
-                    <th>Receipent/Sender</th>
-                    <th>Category</th>
-                    <th>Transaction Date</th>
-                    <th>Amount</th>
-                </tr>
-            </ng-template>
+            @if (transactions().length > 0) {
 
-            <ng-template #body let-transaction>
-                <tr>
-                    <td>
-                        <div class="image-name">
-                            <img [src]="transaction.avatar" alt="avatar">
-
-                            <div class="name-cat">
-                                <span class="name">{{transaction.name}}</span>
-                                <span class="cat">{{transaction.category}}</span>
-
+                <p-table
+                    [value]="transactions()"
+                    [paginator]="true"
+                    [rows]="10"
+                    ngSkipHydration
+                >
+                <ng-template #header>
+                    <tr class="header">
+                        <th>Receipent/Sender</th>
+                        <th>Category</th>
+                        <th>Transaction Date</th>
+                        <th>Amount</th>
+                    </tr>
+                </ng-template>
+    
+                <ng-template #body let-transaction>
+                    <tr>
+                        <td>
+                            <div class="image-name">
+                                <img [src]="transaction.avatar" alt="avatar">
+    
+                                <div class="name-cat">
+                                    <span class="name">{{transaction.name}}</span>
+                                    <span class="cat">{{transaction.category}}</span>
+    
+                                </div>
                             </div>
-                        </div>
-
-                    </td>
-                    <td class="tab-cat">{{ transaction.category }}</td>
-                    <td class="tab-date">{{ transaction.date | date:"dd MMM YYYY"}}</td>
-                    <td>
-                        <div class="date-amount">
-                            <span class="date">{{ transaction.date | date:"dd MMM YYYY"}}</span>
-                            <span class="amount" [style.color]="transaction.amount < 0 ? '#201f24' : '#277c78'">
-                                {{transaction.amount < 0 ? `${transaction.amount | currency}` : `+${transaction.amount | currency}`}}
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-                <hr>
-                <!-- <span class="hr"></span> -->
-            </ng-template>
-            </p-table>
+    
+                        </td>
+                        <td class="tab-cat">{{ transaction.category }}</td>
+                        <td class="tab-date">{{ transaction.date | date:"dd MMM YYYY"}}</td>
+                        <td>
+                            <div class="date-amount">
+                                <span class="date">{{ transaction.date | date:"dd MMM YYYY"}}</span>
+                                <span class="amount" [style.color]="transaction.amount < 0 ? '#201f24' : '#277c78'">
+                                    {{transaction.amount < 0 ? `${transaction.amount | currency}` : `+${transaction.amount | currency}`}}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <hr>
+                    <!-- <span class="hr"></span> -->
+                </ng-template>
+                </p-table>
+            }
+            @else {
+                <p class="no-results">No results found</p>
+            }
         </div>
 
     </section>
