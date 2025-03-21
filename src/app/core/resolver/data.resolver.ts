@@ -12,7 +12,7 @@ export const dataResolver: ResolveFn<any> = async (route: ActivatedRouteSnapshot
       case 'transactions':
         return { transactions };
       case 'budgets':
-        return { budgets };
+        return { transactions, budgets };
       case 'pots':
         return { pots };
       default:
