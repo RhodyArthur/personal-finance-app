@@ -2,10 +2,74 @@
 @use '../../../styles/_typography' as *
 @use '../../../styles/_mixin' as *
 
-.card
-    ::ng-deep .p-dialog
+form
+    @include flex-container(flex, null, null, column)
+    gap: 1.25rem
+    border-radius: 0.75rem
+    padding: 1.5rem 1.25rem
+    background-color: $white
+
+    h2
+        @extend .preset-2
+        color: $grey900
+
+    p
+        @extend .preset-4
+        color: $grey500
+
+    .content
         @include flex-container(flex, null, null, column)
-        gap: 1.25rem
-        border-radius: 0.75rem
-        padding: 1.5rem 1.25rem
-        background-color: $white
+        gap: 1rem
+
+        ::ng-deep .select-container
+            @include flex-container(flex, flex-start, flex-start, column)
+            gap: 0.25rem
+
+            ::ng-deep label
+                @extend .preset-5
+                font-weight: 700
+                color: $grey500
+
+            ::ng-deep select
+                width: 100%
+        
+        .input-field, .color
+            @include flex-container(flex, flex-start, flex-start, column)
+            gap: 0.25rem
+
+            label
+                @extend .preset-5
+                font-weight: 700
+                color: $grey500
+
+            input
+                padding: 0.75rem 1.25rem
+                border-radius: 0.5rem
+                border: 1px solid $beige500
+                background-color: $white
+                width: 100%
+
+            select
+                padding: 0.75rem 1.25rem
+                border-radius: 0.5rem
+                border: 1px solid $beige500
+                background-color: $white
+                width: 100%
+
+                option
+                    @include flex-container(flex, null, center, row)
+
+                    .circle
+                        width: 1rem
+                        height: 1rem
+                        border: 1px solid red
+                        border-radius: 50%
+                        // margin-right: 0.5rem
+
+                    .name
+                        @extend .preset-4
+                        color: $grey900
+                        margin-left: 0.5rem
+
+    ::ng-deep button
+        width: 100%
