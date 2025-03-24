@@ -12,6 +12,7 @@
 
         h2
             @extend .preset-2
+            color: $grey900
 
         a
             @include flex-container(flex, space-between, center, row)
@@ -27,7 +28,7 @@
             @include flex-container(flex, space-between, center, row)
 
             .image-title
-                @include flex-container(flex, null, null, row)
+                @include flex-container(flex, null, center, row)
                 gap: 1rem
 
                 .avatar
@@ -37,6 +38,7 @@
 
                 .title
                     @extend .preset-4
+                    color: $grey900
                     font-weight: 700
                 
             .value-date
