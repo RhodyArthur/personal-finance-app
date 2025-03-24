@@ -9,11 +9,21 @@ import { MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { BudgetFormComponent } from "../../components/budget-form/budget-form.component";
+import { ButtonComponent } from "../../components/button/button.component";
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogModule,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 
 
 @Component({
   selector: 'app-budgets',
-  imports: [ CurrencyPipe, RouterLink, DatePipe, SelectComponent, SlicePipe, Menu, ButtonModule, BudgetFormComponent],
+  imports: [CurrencyPipe, RouterLink, DatePipe, SelectComponent, SlicePipe, Menu, ButtonModule, MatDialogModule, ButtonComponent],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.sass'
 })
@@ -45,11 +55,12 @@ export class BudgetsComponent {
 
   items: MenuItem[] | undefined;
 
-  visible: boolean = false;
+  readonly dialog = inject(MatDialog);
 
 
   constructor() {
     this.loadBudgets();
+    // effect(() => console.log(this.themes()))
   }
 
   ngOnInit() {
@@ -91,6 +102,11 @@ export class BudgetsComponent {
     })
   });
 
+  transactionsCategory = computed(() => {
+    const resp = this.transactions().map(transaction => transaction.category)
+    return Array.from(new Set(resp));
+  });
+
   
   onMonthChange(monthString: string) {  
     const monthMap: { [key: string]: number } = {
@@ -120,7 +136,15 @@ export class BudgetsComponent {
     return Math.min(100, (Math.abs(totalSpent) / maximum) * 100);
   }
 
-  showDialog() {
-    this.visible = true;
-  }
+ 
+
+  openDialog() {
+    const categories = this.transactionsCategory();
+    this.dialog.open(BudgetFormComponent, {
+      data: {
+        categories: categories
+      }
+  })
+}
+
 }
