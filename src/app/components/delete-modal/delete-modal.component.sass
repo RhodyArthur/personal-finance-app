@@ -1,0 +1,14 @@
+@use '../../../styles/_breakpoints';
+@use '../../../styles/_variables' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_function' as *
+
+.container
+    @include flex-container(flex, null, null, column)
+    gap: 1.25rem
+    padding: 1.5rem 1.25rem
+    border-radius: 0.75rem
+    background-color: $white
+    width: pxToRem(335)
+    

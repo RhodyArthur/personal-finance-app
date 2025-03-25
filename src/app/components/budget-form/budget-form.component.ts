@@ -1,29 +1,41 @@
-import { Component, inject, Inject, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { SelectComponent } from "../select/select.component";
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ButtonComponent } from "../button/button.component";
 import { Select } from 'primeng/select';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Dialog } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { colorOption } from '../../core/models/menu-item';
+import { BudgetService } from '../../services/budget.service';
+import { Budget } from '../../core/models/budgets';
 
 
 @Component({
   selector: 'app-budget-form',
-  imports: [ SelectComponent, ButtonComponent, Select, FormsModule],
+  imports: [ ButtonComponent, FormsModule, Dialog, ButtonModule, InputTextModule, Select, SelectComponent, ReactiveFormsModule ],
   templateUrl: './budget-form.component.html',
   styleUrl: './budget-form.component.sass'
 })
+
+
 export class BudgetFormComponent {
+  categories = input.required<string[]>();
   selectedCategory = signal<string>('');
-  selectedColor = signal<string>('');
+  selectedColor = signal<colorOption | null>(null);
   fb = inject(FormBuilder);
+  visible: boolean = false;
+  budget = input.required<Budget | null>();
+
+  budgetService = inject(BudgetService);
   
   budgetForm = this.fb.group({
-    category: [''],
-    maximum: [''],
-    theme: ['']
+    category: new FormControl(''),
+    maximum: new FormControl(''),
+    theme: new FormControl('')
   })
 
-  colorOptions = signal<Array<{name: string, value: string}>>([
+  colorOptions = signal<colorOption[]>([
     { name: 'Green', value: '#277c78' },
     { name: 'Yellow', value: '#f2cdac' },
     { name: 'Cyan', value: '#82c9d7' },
@@ -41,18 +53,43 @@ export class BudgetFormComponent {
     { name: 'Orange', value: '#be6c49' }
   ]);
 
-
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { categories: string[] }) {
-    console.log('Received Categories:', this.data.categories);
-  }
-
   onCategorySelected(category: string) {
     this.selectedCategory.set(category);
   }
 
-  onColorSelected(color: string) {
+  onColorSelected(color: colorOption) {
     this.selectedColor.set(color);
+  }
+
+  showDialog() {
+    this.budgetForm.reset();
+  
+    if (this.categories().length > 0) {
+      const firstCategory = this.categories()[0];
+      this.selectedCategory.set(firstCategory);
+      this.budgetForm.patchValue({ category: firstCategory });
+    }
+    
+    this.visible = true;
+  }
+
+  onAddBudget() {
+    this.budgetForm.patchValue({
+      category: this.selectedCategory(),
+      theme: this.selectedColor()?.value
+    })
+
+    if (this.budgetForm.valid) {
+      console.log(this.budgetForm.value);
+      const {category, maximum, theme} = this.budgetForm.value;
+      const numericMaximum = parseFloat(maximum!);
+      const data = {category: category!, maximum: numericMaximum, theme: theme!};
+      this.budgetService.createBudget(data).then(() => {
+
+        console.log('Budget created successfully');
+        this.visible = false;
+      })
+    }
   }
 
 }

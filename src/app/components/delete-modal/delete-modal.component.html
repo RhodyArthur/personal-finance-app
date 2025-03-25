@@ -1,0 +1,16 @@
+<div class="card flex justify-center">
+    <p-button (click)="showDialog()" label="Show" />
+    <p-dialog header="Delete 'Category'" [modal]="true" [(visible)]="visible">
+        <span class="p-text-secondary block mb-8">
+            Are you sure you want to delete this budget?
+            This action cannot be reversed,
+            and all the data inside it will be removed forever.
+        </span>
+
+        <app-button text="Yes, Confirm Deletion" backgroundColor="#C94736"/>
+
+        <button (click)="visible=false">No, Go Back</button>
+        
+    </p-dialog>
+</div>
+
