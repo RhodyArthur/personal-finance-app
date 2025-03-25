@@ -29,9 +29,33 @@
         gap:2rem
 
         .left-side
+            @include flex-container(flex, null, null, column)
+            gap: 2rem
             padding: 1.5rem 1.25rem
             border-radius: 0.75rem
             background-color: $white
+
+            .chart
+                @include flex-container(flex, null, center, row)
+                gap: 0.5rem
+                position: relative
+
+                .text
+                    @include flex-container(flex, null, center, column)
+                    gap: 0.5rem
+                    position: absolute
+                    top: 50%
+                    left: 50%
+                    transform: translate(-50%, -50%)
+
+                    .value
+                        @extend .preset-1
+                        color: $grey900
+
+                    .total
+                        @extend .preset-5
+                        font-weight: 400
+                        color: $grey500
 
             .summary
                 @include flex-container(flex, null,null, column)
@@ -108,6 +132,28 @@
                         .category
                             @extend .preset-2
                             color: $grey900
+                    
+                    .menu
+                        ::ng-deep .p-button
+                            background-color: transparent
+                            border: none
+
+                        ::ng-deep .p-menu
+                            background-color: $white
+                            border: 1px solid $white
+                            color: $grey900
+
+                            ::ng-deep .p-menu-list
+                                ::ng-deep .p-menu-item
+                                    ::ng-deep .p-menu-item-content
+                                        ::ng-deep .p-menu-item-link
+                                            color: $grey900
+
+                                        &:hover
+                                            color: $white
+
+                                .delete-button
+                                    color: $red !important
 
                 .amount-bar
                     @include flex-container(flex, null, null, column)
@@ -187,6 +233,11 @@
                         @include flex-container(flex, null, null, column)
                         gap: 0.75rem
 
+                        .no-transaction
+                            @extend .preset-4
+                            text-align: center
+                            color: $grey500
+
                         .spending-item
                             @include flex-container(flex, space-between, center, row)
                             gap: 1rem
@@ -236,6 +287,28 @@
 
             .col
                 flex: 1
+
+        .content
+            .left-side
+                flex-direction: row
+
+                .chart, .summary
+                    width: 100%
+
+
+@include breakpoints.mq(desktop)
+    .container
+        width: calc(100vw - 380px)
+
+        .content
+            flex-direction: row
+
+            .left-side
+                width: 45%
+                align-items: flex-start
+
+            .right-side
+                width: 55%
 
             
         

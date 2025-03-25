@@ -5,12 +5,19 @@
             <app-select label="Month:" [options]="months()" [(value)]="selectedMonthString" (valueChange)="onMonthChange($event)" class="combobox"/>
         </div>
         
-        <app-button text="+ Add New Budget" (click)="openDialog()"/>
+        <app-budget-form [categories]="transactionsCategory()" [budget]="selectedBudget()"/>
     </header>
 
     <section class="content">
         <div class="left-side">
-            <div class="chart"></div>
+            <div class="chart">
+                <p-chart type="doughnut" [data]="chartSignal()" [options]="chartOptions" class="w-full md:w-[15rem]"/>
+    
+                <div class="text">
+                    <span class="value">${{totalBudgetsSpent()}}</span>
+                    <p class="total">of ${{allBudgetsTotal()}} limit</p>
+                </div>
+            </div>
 
             <div class="summary">
                 <h2>Spending Summary</h2>
@@ -45,8 +52,8 @@
                             <p class="category">{{budgetCategory.budget.category}}</p>
                         </div>
 
-                        <div class="card flex justify-center">
-                            <p-menu #menu [model]="items" [popup]="true" />
+                        <div class="menu">
+                            <p-menu #menu [model]="items" [popup]="true" (click)="selectBudget(budgetCategory.budget)"/>
                             <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-h"/>
                         </div>
                     </div>
@@ -58,7 +65,7 @@
     
 
                         <div class="progress-container">
-                             <div class="progress-bar" [style.backgroundColor]="budgetCategory.budget.theme"
+                            <div class="progress-bar" [style.backgroundColor]="budgetCategory.budget.theme"
                              [style.width.%]="getProgressWidth(budgetCategory.totalSpent, budgetCategory.budget.maximum)"
                               ></div>
                         </div>
@@ -110,7 +117,7 @@
                                 <span class="hr"></span>
                             }
                             @empty {
-                                <p>No transactions yet</p>
+                                <p class="no-transaction">No transactions yet</p>
                             }
                         </div>
                     </div>

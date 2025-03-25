@@ -9,21 +9,15 @@ import { MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { BudgetFormComponent } from "../../components/budget-form/budget-form.component";
-import { ButtonComponent } from "../../components/button/button.component";
-import {
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogModule,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { ChartModule } from 'primeng/chart';
+
 
 
 @Component({
   selector: 'app-budgets',
-  imports: [CurrencyPipe, RouterLink, DatePipe, SelectComponent, SlicePipe, Menu, ButtonModule, MatDialogModule, ButtonComponent],
+  imports: [CurrencyPipe, RouterLink, DatePipe, SelectComponent, SlicePipe, Menu, ButtonModule, BudgetFormComponent,
+    ChartModule
+  ],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.sass'
 })
@@ -34,6 +28,7 @@ export class BudgetsComponent {
   budgets = signal<Budget[]>([]);
   transactions = signal<Transaction[]>([]);
   activatedRoute = inject(ActivatedRoute);
+  selectedBudget = signal<Budget | null>(null);
 
   months = signal<string[]>([
     'January',
@@ -55,18 +50,17 @@ export class BudgetsComponent {
 
   items: MenuItem[] | undefined;
 
-  readonly dialog = inject(MatDialog);
 
 
   constructor() {
     this.loadBudgets();
-    // effect(() => console.log(this.themes()))
+    // effect(() => console.log(this.#labels(), this.#themes(), this.#values()));
   }
 
   ngOnInit() {
     this.items = [
       {label: 'Edit Budget'},
-      {label: 'Delete Budget'},
+      {label: 'Delete Budget', styleClass: 'delete-button'},
     ]
   }
 
@@ -97,7 +91,7 @@ export class BudgetsComponent {
         budget,
         transactions: filteredTransactions,
         totalSpent,
-        remaining
+        remaining,
       }
     })
   });
@@ -106,6 +100,16 @@ export class BudgetsComponent {
     const resp = this.transactions().map(transaction => transaction.category)
     return Array.from(new Set(resp));
   });
+
+  allBudgetsTotal = computed(() => {
+    const total = this.transactionsByCategory().map((budget) => budget.budget).reduce((acc, budget) => acc + budget.maximum, 0);
+    return total;
+  })
+
+  totalBudgetsSpent = computed(() => {
+    const total = this.transactionsByCategory().reduce((acc, budget) => acc + budget.totalSpent, 0);
+    return total;
+  })
 
   
   onMonthChange(monthString: string) {  
@@ -136,15 +140,34 @@ export class BudgetsComponent {
     return Math.min(100, (Math.abs(totalSpent) / maximum) * 100);
   }
 
- 
+  selectBudget(budget: Budget) {
+    this.selectedBudget.set(budget);
+    console.log('Selected Budget:', budget);
+  }
 
-  openDialog() {
-    const categories = this.transactionsCategory();
-    this.dialog.open(BudgetFormComponent, {
-      data: {
-        categories: categories
+  #labels = computed(() => this.transactionsByCategory().map((budget) => budget.budget.category));
+  #values = computed(() => this.transactionsByCategory().map((budget) => budget.totalSpent));
+  #themes = computed(() => this.transactionsByCategory().map((budget) => budget.budget.theme));
+
+  chartSignal = computed(() => ({
+    labels: this.#labels(),
+    datasets: [
+      {
+        data: this.#values(),
+        backgroundColor: this.#themes(),
+        hoverBackgroundColor: ['#145D58', '#6ABDE8', '#C9A78C', '#525053'],
+        borderWidth: 0
       }
-  })
+    ]  
+}))
+
+chartOptions = {
+  cutout: '60%',
+  plugins: {
+    legend: {
+      display: false,
+    }
+  }
 }
 
 }
