@@ -2,7 +2,7 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { SelectComponent } from "../select/select.component";
 import { ButtonComponent } from "../button/button.component";
 import { Select } from 'primeng/select';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -30,10 +30,11 @@ export class BudgetFormComponent {
   budgetService = inject(BudgetService);
   
   budgetForm = this.fb.group({
-    category: new FormControl(''),
-    maximum: new FormControl(''),
-    theme: new FormControl('')
+    category: ['', Validators.required],
+    maximum: ['', Validators.required],
+    theme: ['', Validators.required]
   })
+  
 
   colorOptions = signal<colorOption[]>([
     { name: 'Green', value: '#277c78' },
