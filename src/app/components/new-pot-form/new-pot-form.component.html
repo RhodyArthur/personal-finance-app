@@ -1,0 +1,39 @@
+<app-button text="+ Add New Pot" (click)="showDialog()"></app-button>
+<p-dialog header="Add New Pot" [modal]="true" [(visible)]="visible">
+    
+    <form [formGroup]="potForm">
+        <span class="p-text-secondary block mb-8">Update your information.</span>
+
+        <div class="content">
+    
+            <div class="field">
+                <label for="name" class="font-semibold w-24">Pot Name</label>
+                <input pInputText id="name" class="flex-auto" autocomplete="off" placeholder="e.g. Rainy Days" formControlName="potName"/>
+                <span>30 characters left</span>
+                <!-- @if (potForm.get('potName')?.errors?.['maxlength'].actualLength) {} -->
+            </div>
+        
+            <div class="field">
+                <label for="target" class="font-semibold w-24">Target</label>
+                <input pInputText id="target" type="number" class="flex-auto" autocomplete="off" placeholder="e.g. 2000"/>
+            </div>
+        
+            <p-select [options]="colorOptions()" [(ngModel)]="selectedColor" [ngModelOptions]="{standalone: true}" optionLabel="name" placeholder="Color Tags" class="w-full md:w-56"
+                (onChange)="onColorSelected($event.value)">
+                    <ng-template pTemplate="selectedItem" let-color>
+                        <span>{{color.name}}</span>
+                    </ng-template>
+
+                    <ng-template pTemplate="item" let-color>
+                        <div class="item">
+                          <span class="circle" [style.backgroundColor]="color.value"></span>
+                          <span class="name">{{color.name}}</span>
+                        </div>
+                      </ng-template>
+                </p-select>
+        </div>
+    
+        <app-button text="Add Pot"/>
+    </form>
+    
+</p-dialog>

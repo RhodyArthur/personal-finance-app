@@ -1,0 +1,96 @@
+@use '../../../styles/_breakpoints';
+@use '../../../styles/_variables' as *
+@use '../../../styles/_typography' as *
+@use '../../../styles/_mixin' as *
+@use '../../../styles/_function' as *
+
+.btn
+    background-color: $beige100
+    border: none
+    outline: none
+    color: $grey900
+    @extend .preset-4
+    font-weight: 700
+    width: 100%
+    cursor: pointer
+
+::ng-deep .p-dialog
+    @include flex-container(flex, null, null, column)
+    gap: 1.25rem
+    border-radius: 0.75rem
+    padding: 1.5rem 1.25rem
+    background-color: $white !important
+    color: $grey900
+    width: pxToRem(335)
+
+    ::ng-deep .p-dialog-header, .p-dialog-content
+        padding: 0
+
+        ::ng-deep .p-dialog-title
+            @extend .preset-2
+            color: $grey900
+
+        form
+            @include flex-container(flex, null, null, column)
+            gap: 1.25rem
+
+            span
+                @extend .preset-4
+                color: $grey500
+
+            .content
+                @include flex-container(flex, null, null, column)
+                gap: 1rem
+
+                .saved-bar
+                    @include flex-container(flex, null, null,column)
+                    gap: 1rem
+
+                    .saved-container
+                        @include flex-container(flex, space-between, center, row)
+
+                        span
+                            @extend .preset-4
+                            color: $grey500
+
+                        .value
+                            @extend .preset-1
+                            color: $grey900
+
+
+                    .target-bar
+                        @include flex-container(flex, null, null, column)
+                        gap: pxToRem(13)
+
+                        .target-container
+                            @include flex-container(flex, space-between, center, row)
+                            gap: 0.5rem
+
+                            .percent, .target
+                                @extend .preset-5
+                                font-weight: 700
+                                color: $grey500
+
+                            .target
+                                font-weight: 400
+
+                .field
+                    @include flex-container(flex, null, null, column)
+                    gap: 0.25rem
+
+                    label
+                        @extend .preset-5
+                        font-weight: 700
+                        color: $grey500
+
+                    input
+                        padding: 0.75rem 1.25rem
+                        border-radius: 0.5rem
+                        border: 1px solid $beige500
+                        background-color: $white
+                        color: $grey900
+                        width: 100%
+
+@include breakpoints.mq(tablet)
+    ::ng-deep .p-dialog
+        width: pxToRem(560)
