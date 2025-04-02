@@ -4,6 +4,9 @@
 @use '../../../styles/_variables' as *;
 @use '../../../styles/_function' as *;
 
+.delete-button
+    color: $red
+
 .container
     @include flex-container(flex, null, null, column)
     gap: 2rem
@@ -153,7 +156,8 @@
                                             color: $white
 
                                 .delete-button
-                                    color: $red !important
+                                    ::ng-deep .p-menu-item-link
+                                        color: $red !important
 
                 .amount-bar
                     @include flex-container(flex, null, null, column)
@@ -304,11 +308,18 @@
             flex-direction: row
 
             .left-side
-                width: 45%
-                align-items: flex-start
+                width: 40%
+                height: fit-content
+                @include flex-container(flex, flex-start, center, column)
+
+                .chart
+                    @include flex-container(flex, center, center, row)
+                    
 
             .right-side
-                width: 55%
+                width: 60%
+
+                
 
             
         

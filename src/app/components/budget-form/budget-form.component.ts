@@ -26,7 +26,6 @@ export class BudgetFormComponent {
   fb = inject(FormBuilder);
   visible: boolean = false;
   budget = input.required<Budget | null>();
-
   budgetService = inject(BudgetService);
   
   budgetForm = this.fb.group({
@@ -35,6 +34,15 @@ export class BudgetFormComponent {
     theme: ['', Validators.required]
   })
   
+  constructor() {
+    // if(this.budget()) {
+    //   this.budgetForm.patchValue({
+    //     category: this.budget()?.category,
+    //     maximum: this.budget()?.maximum.toString(),
+    //     theme: this.budget()?.theme
+    //   })
+    // }
+  }
 
   colorOptions = signal<colorOption[]>([
     { name: 'Green', value: '#277c78' },
@@ -63,8 +71,6 @@ export class BudgetFormComponent {
   }
 
   showDialog() {
-    this.budgetForm.reset();
-  
     if (this.categories().length > 0) {
       const firstCategory = this.categories()[0];
       this.selectedCategory.set(firstCategory);
@@ -83,7 +89,7 @@ export class BudgetFormComponent {
     if (this.budgetForm.valid) {
       console.log(this.budgetForm.value);
       const {category, maximum, theme} = this.budgetForm.value;
-      const numericMaximum = parseFloat(maximum!);
+      const numericMaximum = parseFloat(maximum as string);
       const data = {category: category!, maximum: numericMaximum, theme: theme!};
       this.budgetService.createBudget(data).then(() => {
 

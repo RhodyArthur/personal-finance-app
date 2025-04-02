@@ -4,11 +4,26 @@
 @use '../../../styles/_mixin' as *
 @use '../../../styles/_function' as *
 
-.container
+::ng-deep .p-dialog
     @include flex-container(flex, null, null, column)
     gap: 1.25rem
-    padding: 1.5rem 1.25rem
     border-radius: 0.75rem
-    background-color: $white
+    padding: 1.5rem 1.25rem
+    background-color: $white !important
+    color: $grey900
     width: pxToRem(335)
+
+    ::ng-deep .p-dialog-content
+        @include flex-container(flex, null, null, column)
+        gap: 1.25rem
+
+        .btn
+            button
+                width: 100%
+                font-weight: 400
+
+@include breakpoints.mq(tablet)
+    ::ng-deep .p-dialog
+        width: pxToRem(560)
+        
     
