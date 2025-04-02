@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, ViewChild } from '@angular/core';
 import { Budget } from '../../core/models/budgets';
 import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -10,14 +10,14 @@ import { Menu } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { BudgetFormComponent } from "../../components/budget-form/budget-form.component";
 import { ChartModule } from 'primeng/chart';
+import { DeleteModalComponent } from '../../components/delete-modal/delete-modal.component';
 
 
 
 @Component({
   selector: 'app-budgets',
   imports: [CurrencyPipe, RouterLink, DatePipe, SelectComponent, SlicePipe, Menu, ButtonModule, BudgetFormComponent,
-    ChartModule
-  ],
+    ChartModule, DeleteModalComponent],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.sass'
 })
@@ -49,7 +49,7 @@ export class BudgetsComponent {
   selectedMonthString: string = this.selectedMonth().toString();
 
   items: MenuItem[] | undefined;
-
+  showDelete: boolean = false;
 
 
   constructor() {
@@ -59,8 +59,8 @@ export class BudgetsComponent {
 
   ngOnInit() {
     this.items = [
-      {label: 'Edit Budget'},
-      {label: 'Delete Budget', styleClass: 'delete-button'},
+      {label: 'Edit Budget', command: () => this.onEditClicked()},
+      {label: 'Delete Budget', styleClass: 'delete-button', command: () => this.onDeleteClicked()},
     ]
   }
 
@@ -142,7 +142,6 @@ export class BudgetsComponent {
 
   selectBudget(budget: Budget) {
     this.selectedBudget.set(budget);
-    console.log('Selected Budget:', budget);
   }
 
   #labels = computed(() => this.transactionsByCategory().map((budget) => budget.budget.category));
@@ -168,6 +167,20 @@ chartOptions = {
       display: false,
     }
   }
+}
+
+@ViewChild(DeleteModalComponent) deleteModalComponent!: DeleteModalComponent;
+@ViewChild(BudgetFormComponent) budgetFormComponent!: BudgetFormComponent;
+
+
+onEditClicked() {
+  this.budgetFormComponent.showDialog();
+}
+
+onDeleteClicked() {
+  console.log('Delete clicked')
+  this.showDelete = true;
+  this.deleteModalComponent.showDialog();
 }
 
 }
