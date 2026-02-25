@@ -1,1 +1,45 @@
-<p>pots works!</p>
+<div class="container">
+    <header>
+        <h2>Pots</h2>
+        <app-new-pot-form/>
+    </header>
+
+    <div class="pots">
+        @for (pot of allPots(); track $index) {
+
+            <div class="card">
+                <div class="title-container">
+                    <div class="title">
+                        <span class="circle" [style.backgroundColor]="pot.pot.theme"></span>
+                        <p class="name">{{pot.pot.name}}</p>
+                    </div>
+    
+                    <img src="assets/images/icon-ellipsis.svg" alt="ellipsis">
+                </div>
+    
+                <div class="saved-bar">
+                    <div class="saved-container">
+                        <span>Total Saved</span>
+                        <p class="value">{{pot.pot.total | currency}}</p>
+                    </div>
+                    
+                    <div class="target-bar">
+                        <div class="progress-bar">
+                            <div class="bar" [style.backgroundColor]="pot.pot.theme" [style.width.%]="pot.percentage"></div>
+                        </div>
+    
+                        <div class="target-container">
+                            <p class="percent">{{pot.percentage}}%</p>
+                            <p class="target">Target: {{pot.pot.target | currency}}</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="actions">
+                    <button class="btn">+ Add Money</button>
+                    <app-withdrawal-form class="btn"/>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<button class="btn" (click)="showDialog()">Withdraw</button>
+<p-dialog header="Withdraw from 'Savings'" [modal]="true" [(visible)]="visible">
+    
+    <form>
+        <span class="p-text-secondary block mb-8">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus  hendrerit.
+             Pellentesque aliquet nibh nec urna. In nisi neque, aliquet.</span>
+
+        <div class="content">
+    
+            <div class="saved-bar">
+                <div class="saved-container">
+                    <span>Total Saved</span>
+                    <p class="value">$139</p>
+                </div>
+                
+                <div class="target-bar">
+                    <p-metergroup [value]="value" />
+
+                    <div class="target-container">
+                        <p class="percent">5.95%</p>
+                        <p class="target">Target: $2000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="amount" class="font-semibold w-24">Amount to Withdraw</label>
+                <input pInputText id="amount" type="number" class="flex-auto" autocomplete="off" placeholder="e.g. 2000"/>
+            </div>
+        
+            
+        </div>
+    
+        <app-button text="Confirm Withdrawal"/>
+    </form>
+    
+</p-dialog>

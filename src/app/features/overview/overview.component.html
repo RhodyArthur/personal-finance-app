@@ -1,1 +1,46 @@
-<p>overview works!</p>
+<div class="container">
+    <h2 class="content-title">Overview</h2>
+
+    <section class="summary">
+        <div class="card current">
+            <span class="name">Current Balance</span>
+            <p class="value">{{balance().current | currency}}</p>
+        </div>
+
+        <div class="card">
+            <span>Income</span>
+            <p>{{balance().expenses | currency}}</p>
+        </div>
+
+        <div class="card">
+            <span>Expenses</span>
+            <p>{{balance().income | currency}}</p>
+        </div>
+
+    </section>
+
+    <section class="content">
+        <div class="left-side">
+
+            <div class="tile">
+                <app-overview-pots [pots]="pots()"/>
+            </div>
+
+            <div class="tile">
+                <app-overview-transactions [transactions]="transactions()"/>
+            </div>
+        </div>
+
+        <div class="right-side">
+
+            <div class="tile">
+                <app-overview-budgets [budgets]="budgets()"/>
+            </div>
+
+            <div class="tile">
+                <app-overview-recurring-bills [transactions]="transactions()"/>
+            </div>
+        </div>
+    </section>
+
+</div>

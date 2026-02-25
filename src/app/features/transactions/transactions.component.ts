@@ -1,11 +1,137 @@
-import { Component } from '@angular/core';
+import { Component, computed, ElementRef, inject, Signal, signal, ViewChild, viewChild } from '@angular/core';
+import { InputFieldComponent } from "../../components/input-field/input-field.component";
+import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
+import { Transaction } from '../../core/models/transactions';
+import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { DataService } from '../../services/data.service';
+import { ResponsivePlaceholderDirective } from '../../core/responsive-placeholder.directive';
+import { SelectComponent } from "../../components/select/select.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions',
-  imports: [],
+  imports: [InputFieldComponent, TableModule, CommonModule, SelectComponent, FormsModule],
   templateUrl: './transactions.component.html',
-  styleUrl: './transactions.component.sass'
+  styleUrls: ['./transactions.component.sass']
 })
 export class TransactionsComponent {
 
+  transactions = signal<Transaction[]>([]);
+  allTransactions = signal<Transaction[]>([]);
+  activatedRoute = inject(ActivatedRoute);
+  dataService = inject(DataService);
+  
+  sortList = signal<string[]>([
+    'Latest',
+    'Oldest',
+    'A to Z',
+    'Z to A',
+    'Highest',
+    'Lowest'
+  ])
+
+  category = signal<string>('All transactions');
+  sortItem = signal<string>('Latest');
+  search = signal<string>('');
+
+  constructor() {
+    this.loadTransactions();
+  }
+
+  async loadTransactions() {
+    try {
+      const data = await firstValueFrom(this.activatedRoute.data);
+      this.transactions.set(data['transactions']['transactions'])
+      this.allTransactions.set(data['transactions']['transactions'])
+      this.loadPersistedData();
+    } catch (error) {
+      console.error('Error loading transactions:', error);
+    }
+  }
+
+  loadPersistedData() {
+    const persistedData = localStorage.getItem('filteredTransactions');
+    const persistedCategory = localStorage.getItem('selectedCategory');
+    const persistedSortItem = localStorage.getItem('sortItem');
+    if (persistedData) {
+      const transactions = JSON.parse(persistedData);
+      this.transactions.set(transactions);
+      if (transactions.length > 0 && persistedCategory) {
+        this.category.set(persistedCategory);
+      }
+    }
+    if (persistedSortItem) {
+      this.sortItem.set(persistedSortItem);
+      this.onSortItem(persistedSortItem);
+    }
+  }
+
+  transactionsCategory = computed(() => {
+    const resp = this.allTransactions().map(transaction => transaction.category)
+    const categories =  Array.from(new Set(resp));
+    return [ 'All transactions',...categories]
+  });
+
+  onFilteredCategory(category: string) {
+    this.category.set(category);
+
+    if (category === 'All transactions') {
+      this.transactions.set(this.allTransactions());
+      localStorage.removeItem('filteredTransactions');
+      localStorage.removeItem('selectedCategory');
+    }
+    else {
+      const resp = this.allTransactions().filter(transaction => transaction.category === category);
+      localStorage.setItem('filteredTransactions', JSON.stringify(resp));
+      localStorage.setItem('selectedCategory', category);
+      this.transactions.set(resp);
+    }
+  }
+
+  onSortItem(item: string) {
+    this.sortItem.set(item);
+    localStorage.setItem('sortItem', item);
+    switch (item) {
+      case 'Latest':
+        this.transactions.set(this.transactions().sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        break;
+      case 'Oldest':
+        this.transactions.set(this.transactions().sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+        break;
+      case 'A to Z':
+        this.transactions.set(this.transactions().sort((a,b) => a.name.localeCompare(b.name)));
+        break;
+      case 'Z to A':
+        this.transactions.set(this.transactions().sort((a,b) => b.name.localeCompare(a.name)));
+        break;
+      case 'Highest':
+        this.transactions.set(this.transactions().sort((a,b) => b.amount - a.amount) )
+        break;
+      case 'Lowest':
+        this.transactions.set(this.transactions().sort((a,b) => a.amount - b.amount) )
+    }
+  }
+
+  
+
+
+  onSearch(searchItem: string) {
+    this.search.set(searchItem);
+    if (searchItem) {
+      const response = this.allTransactions().filter(transaction => {
+        return (
+        transaction.name.toLowerCase().includes(searchItem.toLowerCase()) ||
+        transaction.category.toLowerCase().includes(searchItem.toLowerCase()) ||
+        transaction.amount.toString().includes(searchItem) || 
+        transaction.date.includes(searchItem)
+        )
+      });
+
+      this.transactions.set(response);
+    }
+  }
+
+  
 }

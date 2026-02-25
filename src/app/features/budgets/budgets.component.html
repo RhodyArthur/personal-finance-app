@@ -1,1 +1,132 @@
-<p>budgets works!</p>
+<main class="container">
+    <header>
+        <div class="col">
+            <h2>Budgets</h2>
+            <app-select label="Month:" [options]="months()" [(value)]="selectedMonthString" (valueChange)="onMonthChange($event)" class="combobox"/>
+        </div>
+        
+        <app-budget-form [categories]="transactionsCategory()" [budget]="selectedBudget()"/>
+    </header>
+
+    <section class="content">
+        <div class="left-side">
+            <div class="chart">
+                <p-chart type="doughnut" [data]="chartSignal()" [options]="chartOptions" class="w-full md:w-[15rem]"/>
+    
+                <div class="text">
+                    <span class="value">${{totalBudgetsSpent()}}</span>
+                    <p class="total">of ${{allBudgetsTotal()}} limit</p>
+                </div>
+            </div>
+
+            <div class="summary">
+                <h2>Spending Summary</h2>
+
+                <div class="details">
+                    @for (budget of transactionsByCategory(); track $index) {
+
+                        <div class="list">
+                            <div class="title">
+                                <span class="theme" [style.backgroundColor]="budget.budget.theme"></span>
+                                <p class="category">{{budget.budget.category}}</p>
+                            </div>
+    
+                            <div class="amount">
+                                <span class="spent">{{budget.totalSpent| currency}}</span>
+                                <p class="limit">of {{budget.budget.maximum| currency}}</p>
+                            </div>
+                        </div>
+                        <span class="hr"></span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="right-side">
+            @for (budgetCategory of transactionsByCategory(); track $index) {
+
+                <div class="budget">
+                    <div class="cat-title">
+                        <div class="title-container">
+                            <span class="circle" [style.backgroundColor]="budgetCategory.budget.theme"></span>
+                            <p class="category">{{budgetCategory.budget.category}}</p>
+                        </div>
+
+                        <div class="menu">
+                            <p-menu #menu [model]="items" [popup]="true" (click)="selectBudget(budgetCategory.budget)"/>
+                            <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-h"/>
+                            @if (showDelete) {
+
+                                <app-delete-modal [selectedBudget]="selectedBudget()"/>
+                            }
+                        </div>
+                    </div>
+    
+                    <div class="amount-bar">
+                        <div class="filter-budget">
+                            <p class="amount">Maximum of {{budgetCategory.budget.maximum | currency}}</p>
+                        </div>
+    
+
+                        <div class="progress-container">
+                            <div class="progress-bar" [style.backgroundColor]="budgetCategory.budget.theme"
+                             [style.width.%]="getProgressWidth(budgetCategory.totalSpent, budgetCategory.budget.maximum)"
+                              ></div>
+                        </div>
+    
+                        <div class="spent-free">
+                            <div class="row">
+                                <span class="cat-theme" [style.backgroundColor]="budgetCategory.budget.theme"></span>
+    
+                                <div class="text-container">
+                                    <span>Spent</span>
+                                    <p>{{budgetCategory.totalSpent | currency}}</p>
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <span class="cat-theme"></span>
+    
+                                <div class="text-container">
+                                    <span>Remaining</span>
+                                    <p>{{budgetCategory.remaining | currency}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="latest-spending">
+                        <div class="header">
+                            <h2>Latest Spending</h2>
+                            <a [routerLink]="['/transactions']">
+                                See Details
+                                <img src="/assets/images/icon-caret-right.svg" alt="caret-right">
+                            </a>
+                        </div>
+
+                        <div class="spending-list-container">
+                            @for (transaction of budgetCategory.transactions | slice:0:3; track $index) {
+                                
+                                <div class="spending-item">
+                                    <div class="spending-details">
+                                        <img [src]="transaction.avatar" alt="avatar" class="avatar">
+                                        <p class="name">{{transaction.name}}</p>
+                                    </div>
+    
+                                    <div class="spending-amount">
+                                        <span class="amount">{{transaction.amount | currency}}</span>
+                                        <p class="date">{{transaction.date | date:"dd MMM YYYY"}}</p>
+                                    </div>
+                                </div>
+                                <span class="hr"></span>
+                            }
+                            @empty {
+                                <p class="no-transaction">No transactions yet</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</main>

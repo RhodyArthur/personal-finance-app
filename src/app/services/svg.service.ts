@@ -10,7 +10,7 @@ export class SvgService {
     {name: 'transactions', path: 'assets/images/icon-nav-transactions.svg'},
     {name: 'budgets', path: 'assets/images/icon-nav-budgets.svg'},
     {name: 'pots', path: 'assets/images/icon-nav-pots.svg'},
-    {name: 'recurring bills', path: 'assets/images/icon-nav-recurring-bills.svg'}
+    {name: 'recurring-bills', path: 'assets/images/icon-nav-recurring-bills.svg'}
   ]
 
   get items(): NavItems[] {

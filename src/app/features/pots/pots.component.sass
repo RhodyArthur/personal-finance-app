@@ -1,0 +1,127 @@
+@use '../../../styles/_breakpoints';
+@use '../../../styles/_mixin' as *;
+@use '../../../styles/_typography' as *;
+@use '../../../styles/_variables' as *;
+@use '../../../styles/_function' as *;
+
+.container
+    @include flex-container(flex, null, null, column)
+    gap: 2rem
+
+    header
+        @include flex-container(flex, space-between, center, row)
+        padding: 0.5rem 0
+
+        h2
+            @extend .preset-1
+            color: $grey900
+
+    .pots
+        @include flex-container(flex, null, null, column)
+        gap: 1.5rem
+
+        .card
+            @include flex-container(flex, null, null, column)
+            gap: 2rem
+            padding: 1.5rem 1.25rem
+            border-radius: 0.75rem
+            background-color: $white
+
+            .title-container
+                @include flex-container(flex, space-between, center, row)
+
+                .title
+                    @include flex-container(flex, null, center, row)
+                    gap: 1rem
+
+                    .circle
+                        width: 1rem
+                        height: 1rem
+                        border-radius: 50%
+
+                    .name
+                        @extend .preset-2
+                        color: $grey900
+
+            
+            .saved-bar
+                @include flex-container(flex, null, null,column)
+                gap: 1rem
+
+                .saved-container
+                    @include flex-container(flex, space-between, center, row)
+
+                    span
+                        @extend .preset-4
+                        color: $grey500
+
+                    .value
+                        @extend .preset-1
+                        color: $grey900
+
+
+                .target-bar
+                    @include flex-container(flex, null, null, column)
+                    gap: pxToRem(13)
+
+                    .progress-bar
+                        width: 100%
+                        height: 0.5rem
+                        border-radius: 0.5rem
+                        background-color: $beige100
+
+                        .bar
+                            width: 50%
+                            height: 100%
+                            border-radius: 0.5rem
+                            background-color: $green
+
+                    .target-container
+                        @include flex-container(flex, space-between, center, row)
+                        gap: 0.5rem
+
+                        .percent, .target
+                            @extend .preset-5
+                            font-weight: 700
+                            color: $grey500
+
+                        .target
+                            font-weight: 400
+                        
+
+                
+            .actions
+                @include flex-container(flex, space-between, center, row)
+                gap: 1rem
+
+                .btn
+                    border-radius: 0.5rem
+                    padding: 1rem
+                    background-color: $beige100
+                    border: none
+                    outline: none
+                    color: $grey900
+                    @extend .preset-4
+                    font-weight: 700
+                    width: 100%
+                    cursor: pointer
+
+@include breakpoints.mq(desktop)
+    .container
+        .pots
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            grid-template-rows: auto
+            gap: 1.5rem
+                    
+
+                    
+
+                    
+                
+                    
+                
+            
+        
+        
+    

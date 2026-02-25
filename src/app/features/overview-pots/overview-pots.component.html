@@ -1,0 +1,38 @@
+<main class="container">
+    <section class="small-content">
+        <h2>Pots</h2>
+
+        <a [routerLink]="['/pots']">
+            See Details
+            <img src="/assets/images/icon-caret-right.svg" alt="caret-right">
+        </a>
+    </section>
+
+    <section class="content">
+        <div class="col">
+            <img src="/assets/images/icon-pot.svg" alt="dollar sign">
+
+            <div class="total">
+                <span>Total Saved</span>
+                <p>${{total()}}</p>
+            </div>
+        </div>
+
+        <div class="col-1">
+
+            <div class="line">
+                @for (pot of firstFour(); track $index) {
+                    <div class="pot">
+                        <span class="theme"
+                        [style.backgroundColor]="pot.theme"></span>
+
+                        <div class="text">
+                            <span>{{pot.name}}</span>
+                            <p>${{pot.total}}</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</main>

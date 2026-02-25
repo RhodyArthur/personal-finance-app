@@ -1,9 +1,10 @@
 @use "sass:map";
 
-$breakpoints
+$breakpoints: (
     mobile: 23.4375em,
     tablet: 48em,
     desktop: 64em
+)
 
 @mixin mq($key)
     $size: map.get($breakpoints, $key)
